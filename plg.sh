@@ -8,7 +8,7 @@ PLG_GENERATOR="Propus Letterhead Generator v$VERSION"
 PLG_DATE=`date +%Y-%m-%dT%H:%M:%S`
 PLG_INITIALCREATOR="Propus Informática Ltda"
 templatefile="template.odt"
-tmpdir=`mktemp -d --tmpdir=/tmp plg.XXXXXXXX`
+tmpdir=`mktemp -d --tmpdir plg.XXXXXXXX`
 MYPWD=$PWD
 
 # Propus Tag
