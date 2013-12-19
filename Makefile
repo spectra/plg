@@ -1,22 +1,15 @@
 #!/usr/bin/make -f 
-TEMPDIR := $(shell mktemp -d --tmpdir installed.plg.XXXXXXXX)
-
 clean:
-	rm -rf /tmp/installed.plg*
-	rm -f plg
-	rm -f plg.1
+	rm -f plg.sh
+	mv template.odt template
+	rm -f *.odt
+	mv template template.odt
 
 build:
-	echo ${TEMPDIR}
-	cp ./plg.sh $(TEMPDIR)/runme.sh
-	cp ./template.odt ${TEMPDIR}
-	shar ${TEMPDIR} > plg.1
-	sed -e 's|exit 0|cd ${TEMPDIR}; ./runme.sh; cd -; exit 0|' plg.1 > plg
-	rm plg.1
-	chmod a+x plg
+	addpayload.sh template.odt
 
-install: plg
-	install plg /usr/bin
+install: plg.sh
+	install plg.sh /usr/bin
 
 uninstall:
-	rm -rf /usr/bin/plg
+	rm -rf /usr/bin/plg.sh

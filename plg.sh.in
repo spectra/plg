@@ -9,6 +9,8 @@ PLG_DATE=`date +%Y-%m-%dT%H:%M:%S`
 PLG_INITIALCREATOR="Propus Informática Ltda"
 templatefile="template.odt"
 tmpdir=`mktemp -d --tmpdir plg.XXXXXXXX`
+uuencode=1
+binary=0
 MYPWD=$PWD
 
 # Propus Tag
@@ -20,6 +22,7 @@ tag_MINUTE=`echo $tag_DATA|cut -f4 -d:`
 tag_MINUTES_OF_DAY=$(((tag_HOUR * 60) + tag_MINUTE))
 PLG_TAGNUM=`printf '%4d-%03X-%03X' $tag_YEAR $tag_DAY_OF_YEAR $tag_MINUTES_OF_DAY`
 
+# Show help message
 show_help() {
     echo "plg.sh version $VERSION"
     echo "Generates a new Letterhead ODT document"
@@ -37,6 +40,19 @@ show_help() {
     echo "                      [Default: \"$PLG_TITLE2\"]"
     echo "       -g TAGNUM      Sets the Propus Tag"
     echo "                      [If ommitted, generates a new one]"
+}
+
+# Explode the binary payload
+# http://www.linuxjournal.com/content/add-binary-payload-your-shell-scripts
+explode_payload() {
+    match=$(grep --text --line-number '^PAYLOAD:$' $0 | cut -d ':' -f 1)
+    payload_start=$((match + 1))
+    if [[ $binary -ne 0 ]]; then
+        tail -n +$payload_start $0 > $tmpdir/$templatefile
+    fi
+    if [[ $uuencode -ne 0 ]]; then
+        tail -n +$payload_start $0 | uudecode > $tmpdir/$templatefile
+    fi
 }
 
 # getopts
@@ -85,7 +101,7 @@ shift $((OPTIND-1))
 outputfile=${PLG_TAGNUM}_-_novo_documento.odt
 
 # Unzip the template
-cp $templatefile $tmpdir
+explode_payload
 cd $tmpdir
 unzip $templatefile
 rm -f $templatefile
@@ -115,4 +131,5 @@ zip -r $MYPWD/$outputfile *
 cd $MYPWD
 rm -rf $tmpdir
 
-# vim:fileencoding=utf8:encoding=utf8
+exit 0
+
