@@ -6,7 +6,7 @@ clean:
 	mv template template.odt
 
 build:
-	addpayload.sh template.odt
+	./addpayload.sh template.odt
 
 install: plg.sh
 	install plg.sh /usr/bin
