@@ -16,7 +16,8 @@ MYPWD=$PWD
 # Propus Tag
 tag_DATA=`date --utc +%Y:%j:%H:%M`
 tag_YEAR=`echo $tag_DATA|cut -f1 -d:`
-tag_DAY_OF_YEAR=`echo $tag_DATA|cut -f2 -d:`
+tag_DAY_OF_YEAR0=`echo $tag_DATA|cut -f2 -d:`    # date %j can be confused
+tag_DAY_OF_YEAR=`expr $tag_DAY_OF_YEAR0 + 0`     # as octal output
 tag_HOUR=`echo $tag_DATA|cut -f3 -d:`
 tag_MINUTE=`echo $tag_DATA|cut -f4 -d:`
 tag_MINUTES_OF_DAY=$(((tag_HOUR * 60) + tag_MINUTE))
