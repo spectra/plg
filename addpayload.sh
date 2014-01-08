@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Shamelessly stolen from http://www.linuxjournal.com/content/add-binary-payload-your-shell-scripts
+
 # Check for payload format option (default is uuencode).
 uuencode=1
 if [[ "$1" == '--binary' ]]; then

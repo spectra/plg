@@ -44,7 +44,7 @@ show_help() {
 }
 
 # Explode the binary payload
-# http://www.linuxjournal.com/content/add-binary-payload-your-shell-scripts
+# Check addpayload.sh
 explode_payload() {
     match=$(grep --text --line-number '^PAYLOAD:$' $0 | cut -d ':' -f 1)
     payload_start=$((match + 1))
